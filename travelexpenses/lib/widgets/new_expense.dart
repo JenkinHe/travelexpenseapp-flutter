@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:travelexpenses/models/expense.dart';
+
 class NewExpense extends StatefulWidget {
   const NewExpense({super.key});
 
@@ -16,7 +17,8 @@ class _NewExpenseState extends State<NewExpense> {
   final _titleController = TextEditingController();
   final _amountController = TextEditingController();
   DateTime? _chosenDate;
-  
+  Category _chosenCategory=Category.food;
+
   @override
   void dispose() {
     _titleController.dispose();
@@ -24,18 +26,18 @@ class _NewExpenseState extends State<NewExpense> {
     super.dispose();
   }
 
-  void _openDatePicker() async{
+  void _openDatePicker() async {
     final now = DateTime.now();
     final firstDate = DateTime(now.year - 2, now.month, now.day);
 
-    final selectedDate=await showDatePicker(
+    final selectedDate = await showDatePicker(
         context: context,
         initialDate: now,
         firstDate: firstDate,
         lastDate: now);
-        setState(() {
-          _chosenDate=selectedDate;
-        });
+    setState(() {
+      _chosenDate = selectedDate;
+    });
   }
 
   @override
@@ -70,7 +72,9 @@ class _NewExpenseState extends State<NewExpense> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text(_chosenDate==null?'Select Date':formatter.format(_chosenDate!)),
+                  Text(_chosenDate == null
+                      ? 'Select Date'
+                      : formatter.format(_chosenDate!)),
                   IconButton(
                       onPressed: _openDatePicker,
                       icon: const Icon(Icons.calendar_month))
@@ -80,6 +84,26 @@ class _NewExpenseState extends State<NewExpense> {
           ),
           const SizedBox(
             height: 30,
+          ),
+           Row(
+            children: [
+              const Text("Expense Category"),
+              const SizedBox(
+                width: 30,
+              ),
+              DropdownButton(
+                  value: _chosenCategory,
+                  items: Category.values
+                      .map((e) => DropdownMenuItem(
+                        value: e,
+                        child: Text(e.name.toUpperCase()))).toList(),
+                  onChanged: (value) {
+                    if(value==null) return;
+                    setState(() {
+                      _chosenCategory=value;
+                    });
+                  })
+            ],
           ),
           Row(
             children: [
