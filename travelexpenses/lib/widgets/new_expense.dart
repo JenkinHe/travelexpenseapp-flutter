@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-
+import 'package:travelexpenses/models/expense.dart';
 class NewExpense extends StatefulWidget {
   const NewExpense({super.key});
 
@@ -15,11 +15,27 @@ class NewExpense extends StatefulWidget {
 class _NewExpenseState extends State<NewExpense> {
   final _titleController = TextEditingController();
   final _amountController = TextEditingController();
+  DateTime? _chosenDate;
+  
   @override
   void dispose() {
     _titleController.dispose();
     _amountController.dispose();
     super.dispose();
+  }
+
+  void _openDatePicker() async{
+    final now = DateTime.now();
+    final firstDate = DateTime(now.year - 2, now.month, now.day);
+
+    final selectedDate=await showDatePicker(
+        context: context,
+        initialDate: now,
+        firstDate: firstDate,
+        lastDate: now);
+        setState(() {
+          _chosenDate=selectedDate;
+        });
   }
 
   @override
@@ -36,28 +52,35 @@ class _NewExpenseState extends State<NewExpense> {
             ),
           ),
           Row(
-              children: [
-                Expanded(
-                  child: TextField(
-                    controller: _amountController,
-                    keyboardType: TextInputType.number,
-                    decoration: const InputDecoration(
-                      prefixText: '\$',
-                      label: Text("Amount"),
-                    ),
+            children: [
+              Expanded(
+                child: TextField(
+                  controller: _amountController,
+                  keyboardType: TextInputType.number,
+                  decoration: const InputDecoration(
+                    prefixText: '\$',
+                    label: Text("Amount"),
                   ),
                 ),
-                const SizedBox(width: 30,),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                  Text("Select date"),
-                  IconButton(onPressed: (){}, icon: const Icon(Icons.calendar_month))
-                ],)
-              ],
-            ),
-          const SizedBox(height: 30,),
+              ),
+              const SizedBox(
+                width: 30,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(_chosenDate==null?'Select Date':formatter.format(_chosenDate!)),
+                  IconButton(
+                      onPressed: _openDatePicker,
+                      icon: const Icon(Icons.calendar_month))
+                ],
+              )
+            ],
+          ),
+          const SizedBox(
+            height: 30,
+          ),
           Row(
             children: [
               ElevatedButton(
