@@ -1,8 +1,6 @@
-
-
 import 'package:flutter/material.dart';
 
-class NewExpense extends StatefulWidget{
+class NewExpense extends StatefulWidget {
   const NewExpense({super.key});
 
   @override
@@ -12,20 +10,40 @@ class NewExpense extends StatefulWidget{
   }
 }
 
-class _NewExpenseState extends State<NewExpense>{
+class _NewExpenseState extends State<NewExpense> {
+  
+  final _titleController =TextEditingController();
+
+  @override
+  void dispose(){
+    _titleController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return const Padding(
-      padding: EdgeInsets.all(20),
-      child:Column(children: [
+    return Padding(
+      padding: const EdgeInsets.all(20),
+      child: Column(
+        children: [
           TextField(
+            controller: _titleController,
             maxLength: 45,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               label: Text("Title"),
             ),
+          ),
+          Row(
+            children: [
+              ElevatedButton(
+                  onPressed: () {
+                    print(_titleController.text);
+                  },
+                  child: const Text("Save Expense"))
+            ],
           )
-      ],
-    ),
+        ],
+      ),
     );
   }
 }
