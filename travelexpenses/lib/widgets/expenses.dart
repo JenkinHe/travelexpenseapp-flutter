@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:travelexpenses/expense_list_widget.dart';
+import 'package:travelexpenses/widgets/expense_list/expense_list_widget.dart';
 import 'package:travelexpenses/models/expense.dart';
 
 class Expenses extends StatefulWidget {
