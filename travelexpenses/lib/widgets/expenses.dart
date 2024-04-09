@@ -29,18 +29,20 @@ class _Expenses extends State<Expenses> {
 
   void _openAddExpenseItemOverlay() {
     showModalBottomSheet(
-      isScrollControlled: true,
+        isScrollControlled: true,
         context: context,
-        builder: (modalContext) => NewExpense(onAddExpense: _addExpense,));
+        builder: (modalContext) => NewExpense(
+              onAddExpense: _addExpense,
+            ));
   }
 
-  void _addExpense(Expense expense){
+  void _addExpense(Expense expense) {
     setState(() {
       _myExpenses.add(expense);
     });
   }
 
-  void _removeExpense(Expense expense){
+  void _removeExpense(Expense expense) {
     setState(() {
       _myExpenses.remove(expense);
     });
@@ -48,16 +50,31 @@ class _Expenses extends State<Expenses> {
 
   @override
   Widget build(BuildContext context) {
+    Widget mainScreenContent = const Center(
+      child: Text('No Expenses please add some.'),
+    );
+
+    if (_myExpenses.isNotEmpty) {
+      mainScreenContent = ExpensesList(
+        allExpenses: _myExpenses,
+        onRemoveExpense: _removeExpense,
+      );
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("Travel Expense Tracker"),
-        actions: [IconButton(onPressed: _openAddExpenseItemOverlay, icon: const Icon(Icons.add))],
+        actions: [
+          IconButton(
+              onPressed: _openAddExpenseItemOverlay,
+              icon: const Icon(Icons.add))
+        ],
       ),
       body: Column(
         children: [
           const Text("Travel Expenses"),
           const Text("Travel chart"),
-          Expanded(child: ExpensesList(allExpenses: _myExpenses,onRemoveExpense: _removeExpense,)),
+          Expanded(child: mainScreenContent)
         ],
       ),
     );
