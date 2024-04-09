@@ -44,7 +44,17 @@ class _NewExpenseState extends State<NewExpense> {
     final enteredAmount=double.tryParse(_amountController.text);
     final amountIsInvalid = enteredAmount==null||enteredAmount<=0;
     if(_titleController.text.trim().isEmpty||amountIsInvalid||_chosenDate==null){
-      showDialog(context: context, builder: (dialogContext))
+      showDialog(context: context, builder: (dialogContext)=>
+      AlertDialog(
+        title: const Text('Invalid Input'),
+        content: const Text('Please ensure you have entered a Title,amount,date and category'),
+        actions: [
+          TextButton(onPressed: (){
+            Navigator.pop(dialogContext);
+          }, child: const Text('Okay'))
+        ],
+      )
+      );
     }
   }
 
