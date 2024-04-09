@@ -4,11 +4,12 @@ import 'package:flutter/widgets.dart';
 import 'package:travelexpenses/models/expense.dart';
 
 class NewExpense extends StatefulWidget {
-  const NewExpense({super.key});
+  NewExpense({super.key,required this.onAddExpense});
+  void Function(Expense expense) onAddExpense;
 
   @override
   State<NewExpense> createState() {
-    // TODO: implement createState
+   
     return _NewExpenseState();
   }
 }
@@ -55,13 +56,17 @@ class _NewExpenseState extends State<NewExpense> {
         ],
       )
       );
+      return;
     }
+    widget.onAddExpense(Expense(title: _titleController.text, amount: enteredAmount, date: _chosenDate!, category: _chosenCategory));
+    Navigator.pop(context);//personal input
   }
+  
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.fromLTRB(20, 40, 20, 20),
       child: Column(
         children: [
           TextField(

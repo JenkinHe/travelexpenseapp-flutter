@@ -27,10 +27,17 @@ class _Expenses extends State<Expenses> {
         category: Category.experience)
   ];
 
-  void_openAddExpenseItemOverlay() {
+  void _openAddExpenseItemOverlay() {
     showModalBottomSheet(
+      isScrollControlled: true,
         context: context,
-        builder: (modalContext) => const NewExpense());
+        builder: (modalContext) => NewExpense(onAddExpense: _addExpense,));
+  }
+
+  void _addExpense(Expense expense){
+    setState(() {
+      _myExpenses.add(expense);
+    });
   }
 
   @override
@@ -38,7 +45,7 @@ class _Expenses extends State<Expenses> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Travel Expense Tracker"),
-        actions: [IconButton(onPressed: void_openAddExpenseItemOverlay, icon: const Icon(Icons.add))],
+        actions: [IconButton(onPressed: _openAddExpenseItemOverlay, icon: const Icon(Icons.add))],
       ),
       body: Column(
         children: [
