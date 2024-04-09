@@ -17,6 +17,12 @@ class ExpensesList extends StatelessWidget {
             onRemoveExpense(allExpenses[index]);
           },
           key: ValueKey(allExpenses[index]),
+          background: Container(
+            color: Theme.of(context).colorScheme.error.withOpacity(0.75),
+            margin:  EdgeInsets.symmetric(
+              horizontal: Theme.of(context).cardTheme.margin!.horizontal,
+            ),
+          ),
           child:ExpenseItem(allExpenses[index])
         )
     );
