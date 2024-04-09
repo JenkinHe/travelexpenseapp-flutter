@@ -6,13 +6,21 @@ class Chart extends StatelessWidget {
 
   final List<Expense> expenses;
 
-  List<AllExpensesContainer> get individualExpenses {
+  List<AllExpensesContainer> get categoryExpenses {
     return [
       AllExpensesContainer.forCategory(expenses, Category.food),
       AllExpensesContainer.forCategory(expenses, Category.experience),
       AllExpensesContainer.forCategory(expenses, Category.shopping),
       AllExpensesContainer.forCategory(expenses, Category.stay),
     ];
+  }
+
+  double get highestExpense{
+    double highestExpense =0;
+    for(final category in categoryExpenses){
+      if(category.sumOfExpenses>highestExpense)highestExpense=category.sumOfExpenses;
+    }
+    return highestExpense;
   }
 
   @override
